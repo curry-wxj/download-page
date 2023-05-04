@@ -1,2 +1,6 @@
-# download-page
-下载页面
+- node v14.20.0
+- npm i 
+- node index.js
+- 用于加载网页，类似浏览器 ctrl+s的功能
+- config 为需要下载的网页url
+- filePath 为存储的文件夹名称
