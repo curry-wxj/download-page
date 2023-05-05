@@ -1,8 +1,20 @@
 let fs = require("fs");
 const http = require("http");
 const https = require("https");
+const { Readable } = require("stream");
+const { Buffer } = require("buffer");
+function isBase64(str) {
+  if (typeof str !== "string") {
+    return false;
+  }
+  return str.includes("base64,") && str.startsWith("data:");
+}
+
 // 获取 http://zhufengpeixun.com/strong/html/20.action.html 中的 action.html
 function getFileName(url) {
+  if (isBase64(url)) {
+    return Date.now() + "base64文件";
+  }
   const arrUrl = url.split("/");
   const fileName = arrUrl[arrUrl.length - 1];
   return fileName;
@@ -80,13 +92,19 @@ function promisify(fn) {
 // 获取promise版本的 http.get方法 或 https.get方法
 function getQuery(url) {
   let request;
-  // 判断页面资源是 http还是 https
+  // 判断页面资源是 http还是 https 还是 base64
   if (url.startsWith("https")) {
     request = https;
   } else if (url.startsWith("http")) {
     request = http;
-  } else {
+  } else if (isBase64(url)) {
     // todo 非http资源如何获取 读取 文件内容 比如base64图片
+    const buffer = Buffer.from(url.split(",")[1], "base64");
+    const base64Stream = new Readable();
+    base64Stream.push(buffer);
+    base64Stream.push(null);
+    return () => Promise.resolve(base64Stream);
+  } else {
     return;
   }
   return promisify(request.get);

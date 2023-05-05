@@ -11,7 +11,6 @@ const {
 } = require("./utils");
 
 // 需要下载的网页 url
-// const configArr = require("./configTest");
 const configArr = require("./config");
 // 保存资源的文件夹 名称
 const filePath = "files";
