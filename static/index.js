@@ -20,6 +20,7 @@ app.get("/", async function (req, res) {
 
   if (isDirectory) {
     let files = await readdir(filepath);
+    files.sort((a, b) => parseFloat(a) - parseFloat(b));
     res.render("index", {
       menuItems: files.map((v) => ({
         name: v,

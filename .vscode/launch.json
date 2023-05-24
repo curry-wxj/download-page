@@ -8,10 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "program": "${workspaceFolder}/index.js",
+      "runtimeArgs": ["static/index.js"],
       "runtimeExecutable": "/Users/eleme/.nvm/versions/node/v14.20.0/bin/node",
     }
   ]
